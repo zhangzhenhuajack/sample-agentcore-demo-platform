@@ -51,7 +51,17 @@ brew install --cask kiro
 
 ### 通过 Kiro 一键部署
 
-在 Kiro 中打开本项目目录，使用 Chat 对话：
+在 Kiro 中打开本项目目录，使用 Chat 对话。
+
+**Step 1: 创建部署跳板机**（本地没有 Docker 或需要 ARM64 构建环境时）
+
+```
+帮我在 us-west-2 启动一个 t4g.2xlarge 的 EC2 跳板机，生成 Key Pair 并把私钥下载到本地
+```
+
+Kiro 会自动创建 Key Pair、Security Group（仅开放 22 端口）、启动实例，并返回 SSH 连接信息。
+
+**Step 2: 执行部署**
 
 ```
 帮我部署 Super Agent 到 us-west-2
