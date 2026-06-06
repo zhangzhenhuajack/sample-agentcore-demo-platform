@@ -114,7 +114,7 @@ export class SuperAgentStack extends cdk.Stack {
     // =========================================================================
     const dbInstance = new rds.DatabaseInstance(this, 'SuperAgentDB', {
       engine: rds.DatabaseInstanceEngine.postgres({
-        version: rds.PostgresEngineVersion.VER_16_6,
+        version: rds.PostgresEngineVersion.VER_16_12,
       }),
       instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.MICRO),
       vpc,
@@ -201,7 +201,7 @@ export class SuperAgentStack extends cdk.Stack {
 
     // Skills bucket (for agent skill definitions)
     const skillsBucket = new s3.Bucket(this, 'SkillsBucket', {
-      bucketName: `${bucketPrefix}-skills-${this.account}`,
+      bucketName: `${bucketPrefix}-skills-${this.account}-${this.region}`,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.S3_MANAGED,
@@ -210,7 +210,7 @@ export class SuperAgentStack extends cdk.Stack {
 
     // Workspace bucket (for AgentCore S3 sync)
     const workspaceBucket = new s3.Bucket(this, 'WorkspaceBucket', {
-      bucketName: `${bucketPrefix}-workspace-${this.account}`,
+      bucketName: `${bucketPrefix}-workspace-${this.account}-${this.region}`,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,

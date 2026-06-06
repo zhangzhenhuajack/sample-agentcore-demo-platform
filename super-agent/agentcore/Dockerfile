@@ -2,7 +2,7 @@
 # Runs Claude Agent SDK inside AWS Bedrock AgentCore.
 # Implements the AgentCore HTTP protocol (POST /invocations + GET /ping).
 
-FROM public.ecr.aws/docker/library/node:22-slim
+FROM node:22-slim
 WORKDIR /app
 
 # System dependencies for Claude Code CLI + Python for AgentCore MCP tools

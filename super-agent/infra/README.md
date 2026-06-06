@@ -35,7 +35,50 @@ aws sts get-caller-identity
 aws ec2 describe-key-pairs --query "KeyPairs[].KeyName" --region us-west-2
 ```
 
-## 一键部署（推荐）
+## 使用 Kiro 部署（推荐）
+
+[Kiro](https://kiro.dev) 是 AWS 推出的 AI IDE，内置 Agent 可自动执行部署流程。
+
+### 安装 Kiro CLI
+
+```bash
+# macOS (Homebrew)
+brew install --cask kiro
+
+# 或直接下载
+# https://kiro.dev/downloads
+```
+
+### 通过 Kiro 一键部署
+
+在 Kiro 中打开本项目目录，使用 Chat 对话：
+
+```
+帮我部署 Super Agent 到 us-west-2
+```
+
+Kiro 会自动：
+1. 创建部署跳板机（t4g.2xlarge，用于构建 ARM64 Docker 镜像）
+2. CDK Bootstrap + 基础设施部署
+3. 构建前后端代码并部署到 EC2
+4. 构建 AgentCore 容器并创建 Bedrock AgentCore Runtime
+5. 配置安全组和网络
+
+### 增量更新
+
+```
+帮我只更新后端代码到 us-west-2
+```
+
+### 注意事项
+
+Kiro 部署过程中已自动修复以下常见问题：
+- PostgreSQL 版本兼容性（部分 Region 不支持 16.6，已改用 16.12）
+- S3 桶名全局冲突（桶名已加 Region 后缀）
+- ECR Public 拉取限流（改用 Docker Hub 官方镜像）
+- `enableCdn` 在无域名时不启用
+
+## 一键部署（脚本方式）
 
 ### 带自定义域名（CloudFront CDN）
 
